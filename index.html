@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API CLIMA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>BUSCAR CLIMA</h2>
+
+        <input type="text" id="cidade" placeholder="Digite a cidade" onkeydown="if(event.key==='Enter') buscarClima()">
+        <br>
+        <button onclick="buscarClima()">Buscar</button>
+
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        async function buscarClima() {
+            const cidade = document.getElementById('cidade').value
+
+            const res = await fetch(`http://localhost:3000/clima?cidade=${cidade}`)
+            const data = await res.json()
+
+            if (data.erro) {
+                document.getElementById('resultado').innerText = data.erro
+                return
+            }
+
+            document.getElementById('resultado').innerText = `
+${data.cidade}
+🕒 ${data.dataHora}
+
+🌡️ Temp: ${data.temperatura}°C
+☁️ ${data.descricao}
+
+☀️ Nascer do sol: ${data.nascerSol}
+🌇 Pôr do sol: ${data.porSol}
+
+🌙 Fase da lua: ${data.faseLua}
+        `
+        }
+    </script>
+
+</body>
+
+</html>
