@@ -32,18 +32,27 @@
                 return
             }
 
-            document.getElementById('resultado').innerText = `
-${data.cidade}
-🕒 ${data.dataHora}
+            let html = `
+<p><strong>📍 ${data.cidade}</strong></p>
+<p>🌡️ ${data.temperaturaAtual}°C - ${data.descricaoAtual}</p>
 
-🌡️ Temp: ${data.temperatura}°C
-☁️ ${data.descricao}
+<div class="previsao-grid">
+`
 
-☀️ Nascer do sol: ${data.nascerSol}
-🌇 Pôr do sol: ${data.porSol}
+            data.previsao.forEach(dia => {
+                html += `
+    <div class="dia">
+        <strong>📆 ${dia.data}</strong><br>
+        🌡️ ${dia.min}°C / ${dia.max}°C<br>
+        ☁️ ${dia.descricao}<br>
+        🌙 ${dia.faseLua}
+    </div>
+    `
+            })
 
-🌙 Fase da lua: ${data.faseLua}
-        `
+            html += `</div>`
+
+            document.getElementById('resultado').innerHTML = html
         }
     </script>
 
